@@ -14,20 +14,12 @@ public class player : MonoBehaviour
     public LayerMask groundMask;
     public float jumpForce;
     public Rigidbody rb;
-    public float throwPower;
-    public float throwMultiplier;
-    public Slider powerMeter;
 
-
-    public bool itemHeld;
-    public GameObject currentItem;
     public Transform cameraPosition;
     public LayerMask interactMask;
     public GameObject bullet;
     public GameObject looking;
 
-    public GameObject bomb;
-    public float bombrate;
 
     public float stamina;
     public float staregen;
@@ -69,7 +61,6 @@ public class player : MonoBehaviour
         stamina = 10;
         staregen = 3;
         rb = GetComponent<Rigidbody>();
-        powerMeter.gameObject.SetActive(false);
         storetext.gameObject.SetActive(false);
         redicon.gameObject.SetActive(true);
         blueicon.gameObject.SetActive(false);
@@ -171,26 +162,6 @@ public class player : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (!itemHeld)
-            {
-                if (Physics.Raycast(cameraPosition.position, cameraPosition.forward, out RaycastHit reach, 3f, interactMask))
-                {
-                    itemHeld = true;
-                    currentItem = reach.collider.gameObject;
-                    currentItem.GetComponent<ItemController>().isHeld = true;
-                    currentItem.GetComponent<Rigidbody>().useGravity = false;
-                }
-            }
-            else
-            {
-                itemHeld = false;
-                currentItem.GetComponent<ItemController>().isHeld = false;
-                currentItem.GetComponent<Rigidbody>().useGravity = true;
-                currentItem = null;
-            }
-        }
         if (Input.GetKey(KeyCode.LeftShift) && stamina > 0 && crouch == false)
         {
             speed = 9;
@@ -220,27 +191,7 @@ public class player : MonoBehaviour
         {
             staregen = 0;
         }
-        powerMeter.value = throwPower;
 
-        if (Input.GetKeyDown(KeyCode.E) && itemHeld)
-        {
-            throwPower = 0;
-            powerMeter.gameObject.SetActive(true);
-        }
-        if (Input.GetKey(KeyCode.E) && itemHeld)
-        {
-            throwPower = Mathf.PingPong(Time.time, 1);
-        }
-        if (Input.GetKeyUp(KeyCode.E) && itemHeld)
-        {
-            itemHeld = false;
-            currentItem.GetComponent<ItemController>().isHeld = false;
-            currentItem.GetComponent<Rigidbody>().useGravity = true;
-            currentItem.GetComponent<Rigidbody>().AddForce(throwMultiplier * throwPower * cameraPosition.forward, ForceMode.Impulse);
-            currentItem = null;
-            powerMeter.gameObject.SetActive(false);
-            throwPower = 0;
-        }
        if (ko)
         {
             getuptimer += Time.deltaTime;
