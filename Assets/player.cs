@@ -309,39 +309,16 @@ public class player : MonoBehaviour
     {
         open = true;
 
-        Transform pivot = door.parent;
         Collider doorCollider = door.GetComponent<BoxCollider>();
 
-        float openDuration = 1.5f;
-        float elapsed = 0f;
-
-        Quaternion startRot = pivot.rotation;
-        Quaternion endRot = startRot * Quaternion.Euler(0f, -90f, 0f);
-
+        door.Rotate(0f, 90f, 0f);
         doorCollider.enabled = false;
-
-        while (elapsed < openDuration)
-        {
-            elapsed += Time.deltaTime;
-            pivot.rotation = Quaternion.Lerp(startRot, endRot, elapsed / openDuration);
-            yield return null;
-        }
-
-        pivot.rotation = endRot;
 
         yield return new WaitForSeconds(3f);
 
-        elapsed = 0f;
-        while (elapsed < openDuration)
-        {
-            elapsed += Time.deltaTime;
-            pivot.rotation = Quaternion.Lerp(endRot, startRot, elapsed / openDuration);
-            yield return null;
-        }
-
-        pivot.rotation = startRot;
-
+        door.Rotate(0f, -90f, 0f);
         doorCollider.enabled = true;
+
         open = false;
     }
 
