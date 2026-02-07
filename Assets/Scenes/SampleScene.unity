@@ -463,7 +463,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: daa06dd75d1c2ec4b9f65642617dee5f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1098,6 +1098,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4437277638008607034, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 6059569445402833683, guid: 766995d2b55dfbe4e94bb6a605201470, type: 3}
+    - target: {fileID: 4437277638008607034, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
       propertyPath: PatrolRoute.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -1121,6 +1125,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6300956790866528521, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b0a70d23ec355549b20971e4759e119, type: 2}
     - target: {fileID: 8689751158432982210, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30.91
@@ -4355,6 +4363,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4437277638008607034, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 6059569445402833683, guid: 766995d2b55dfbe4e94bb6a605201470, type: 3}
+    - target: {fileID: 4437277638008607034, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
       propertyPath: PatrolRoute.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -4378,6 +4390,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard
       objectReference: {fileID: 0}
+    - target: {fileID: 6300956790866528521, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 542e5e9d1f2d2e74eb33676a59eca6f2, type: 2}
     - target: {fileID: 8689751158432982210, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 45.781464
@@ -4552,6 +4568,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4437277638008607034, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 6059569445402833683, guid: 766995d2b55dfbe4e94bb6a605201470, type: 3}
     - target: {fileID: 4437277638008607034, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
       propertyPath: PatrolRoute.Array.size
       value: 4
@@ -6400,7 +6420,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3f28aac713ad9ae449e92026380b601d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6439,7 +6459,7 @@ Transform:
   m_GameObject: {fileID: 2105443563}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.35866, y: 0, z: 33.55}
+  m_LocalPosition: {x: -13.31, y: 0, z: 24.69}
   m_LocalScale: {x: 1, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
