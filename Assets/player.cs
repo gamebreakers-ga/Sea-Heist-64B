@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class player : MonoBehaviour
@@ -296,6 +297,10 @@ public class player : MonoBehaviour
         if (collision.gameObject.tag == "door" && key && !open)
         {
             StartCoroutine(DoorTimer(collision.transform));
+        }
+        if (collision.gameObject.tag == "back2menu")
+        {
+            SceneManager.LoadScene("StartScreen");
         }
     }
     private void OnCollisionExit(Collision collision)
