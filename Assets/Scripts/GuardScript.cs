@@ -68,7 +68,7 @@ public class GuardScript : MonoBehaviour
         if (PatrolingState == PatrolingStatus.Waiting)
         {
             TimeAtSentry += Time.deltaTime;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, PatrolRoute[NodeInPatrol].transform.rotation, nma.angularSpeed * 0.2f);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, PatrolRoute[NodeInPatrol].transform.rotation, nma.angularSpeed * 0.2f);
             if (TimeAtSentry > 15)
             {
                 nma.isStopped = false;

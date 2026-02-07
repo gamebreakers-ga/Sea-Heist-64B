@@ -32,7 +32,8 @@ public class FirstPersonControllerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetDetection();
+        RotateCam();
+        //SetDetection();
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
@@ -62,6 +63,11 @@ public class FirstPersonControllerScript : MonoBehaviour
         }
     }
 
+    void RotateCam()
+    {
+
+    }
+
     bool IsGrounded()
     {
         if (Physics.Raycast(transform.position - new Vector3(0, 0.9f, 0), Vector3.down, out RaycastHit hit, 0.2f, groundMask)) 
@@ -71,17 +77,17 @@ public class FirstPersonControllerScript : MonoBehaviour
         return false;    
     }
 
-    public void SetDetection()
-    {
-        float LargestDetection = 0;
-        foreach (GuardScript guardScript in GuardScripts)
-        {
-            if (guardScript.DetectionLevel > LargestDetection)
-            {
-                LargestDetection = guardScript.DetectionLevel;
-            }
-        }
-        DetectionSlider.value = LargestDetection;
-        DetectionSlider.enabled = (LargestDetection != 0);
-    }
+    //public void SetDetection()
+    //{
+    //    float LargestDetection = 0;
+    //    foreach (GuardScript guardScript in GuardScripts)
+    //    {
+    //        if (guardScript.DetectionLevel > LargestDetection)
+    //        {
+    //            LargestDetection = guardScript.DetectionLevel;
+    //        }
+    //    }
+    //    DetectionSlider.value = LargestDetection;
+    //    DetectionSlider.enabled = (LargestDetection != 0);
+    //}
 }
