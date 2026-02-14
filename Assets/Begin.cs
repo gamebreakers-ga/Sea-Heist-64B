@@ -12,6 +12,11 @@ public class Begin : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -21,5 +26,10 @@ public class Begin : MonoBehaviour
             started = true;
         }
 
+    }
+    public void startgame()
+    { 
+        SceneManager.LoadScene("SampleScene");
+        started = true;
     }
 }

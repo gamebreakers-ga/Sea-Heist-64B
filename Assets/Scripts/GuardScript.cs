@@ -23,7 +23,9 @@ public class GuardScript : MonoBehaviour
 
     public float DetectionLevel;
     public float LastAlert = 6;
-    public Vector3 AlertPosition; 
+    public Vector3 AlertPosition;
+
+    public float timer;
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -107,6 +109,12 @@ public class GuardScript : MonoBehaviour
                 nma.destination = Player.transform.position;
                 nma.isStopped = false;
             }
+        }
+
+        timer += Time.deltaTime;
+        if (timer == 5)
+        {
+            GetComponent<Rigidbody>().velocity = new(0,0,0);
         }
     }
 

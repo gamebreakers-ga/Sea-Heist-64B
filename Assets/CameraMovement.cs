@@ -33,6 +33,7 @@ public class CameraMovement : MonoBehaviour
 
     public GameObject bomb;
     public float bombrate;
+    public Vector3 reloadanim = new(0,1,0);
 
     // Start is called before the first frame update
     void Start()
@@ -120,6 +121,21 @@ public class CameraMovement : MonoBehaviour
         {
             reloading.gameObject.SetActive(false);
             ammo = maxammo;
+        } else if (reload <= reloadmin / 2)
+        {
+            weaponblue.GetComponent<RectTransform>().position -= reloadanim;
+            weapongreen.GetComponent<RectTransform>().position -= reloadanim;
+            weaponred.GetComponent<RectTransform>().position -= reloadanim;
+        } else if (reload <= reloadmin)
+        {
+            weaponblue.GetComponent<RectTransform>().position += reloadanim;
+            weaponred.GetComponent<RectTransform>().position += reloadanim;
+            weapongreen.GetComponent<RectTransform>().position += reloadanim;
+        } else
+        {
+            weaponblue.GetComponent<RectTransform>().position = new Vector3(850, 100, 0);
+            weapongreen.GetComponent<RectTransform>().position = new Vector3(850, 100, 0);
+            weaponred.GetComponent<RectTransform>().position = new Vector3(850, 100, 0);
         }
         reloading.GetComponent<Slider>().value = reload;
         if (Input.GetKey(KeyCode.Mouse1))

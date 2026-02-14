@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using System.Threading.Tasks;
 
 public class player : MonoBehaviour
 {
@@ -134,7 +134,7 @@ public class player : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             storetext.gameObject.SetActive(true);
         }
-        else if(atstore == false)
+        else if(!Input.GetKeyDown(KeyCode.F) && !atstore)
         {
             inui = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -279,7 +279,7 @@ public class player : MonoBehaviour
         }
 
     }
-    private void OnCollisionEnter(Collision collision)
+    private async void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "bomb")
         {
@@ -300,9 +300,14 @@ public class player : MonoBehaviour
         }
         if (collision.gameObject.tag == "back2menu")
         {
+            Cursor.lockState = CursorLockMode.None;
+            await Task.Delay(1000);
             SceneManager.LoadScene("StartScreen");
         }
     }
+
+
+
     private void OnCollisionExit(Collision collision)
     {
         if(collision.gameObject.tag == "store")
