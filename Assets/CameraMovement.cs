@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -24,6 +26,7 @@ public class CameraMovement : MonoBehaviour
     public bool multishot;
     public string weapon;
     public RawImage weapongreen;
+    public GameObject selecttext;
 
     public float reloadmin;
     public float reloadmax;
@@ -35,10 +38,12 @@ public class CameraMovement : MonoBehaviour
     public float bombrate;
     public Vector3 reloadanim = new(0,1,0);
 
+    public Scene currentScene;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        Scene currentScene = SceneManager.GetActiveScene();
         maxammo = 10;
         ammo = 10;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -56,6 +61,7 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         reloadmax = reloadmin + 0.5f;
         if (Input.GetKeyDown("1"))
         {
@@ -121,22 +127,22 @@ public class CameraMovement : MonoBehaviour
         {
             reloading.gameObject.SetActive(false);
             ammo = maxammo;
-        } else if (reload <= reloadmin / 2)
-        {
-            weaponblue.GetComponent<RectTransform>().position -= reloadanim;
-            weapongreen.GetComponent<RectTransform>().position -= reloadanim;
-            weaponred.GetComponent<RectTransform>().position -= reloadanim;
-        } else if (reload <= reloadmin)
-        {
-            weaponblue.GetComponent<RectTransform>().position += reloadanim;
-            weaponred.GetComponent<RectTransform>().position += reloadanim;
-            weapongreen.GetComponent<RectTransform>().position += reloadanim;
-        } else
-        {
-            weaponblue.GetComponent<RectTransform>().position = new Vector3(850, 100, 0);
-            weapongreen.GetComponent<RectTransform>().position = new Vector3(850, 100, 0);
-            weaponred.GetComponent<RectTransform>().position = new Vector3(850, 100, 0);
         }
+        //{
+        //    weaponblue.GetComponent<RectTransform>().position -= reloadanim;
+        //    weapongreen.GetComponent<RectTransform>().position -= reloadanim;
+        //    weaponred.GetComponent<RectTransform>().position -= reloadanim;
+        //} else if (reload <= reloadmin)
+        //{
+        //    weaponblue.GetComponent<RectTransform>().position += reloadanim;
+        //    weaponred.GetComponent<RectTransform>().position += reloadanim;
+        //    weapongreen.GetComponent<RectTransform>().position += reloadanim;
+        //} else
+        //{
+        //    weaponblue.GetComponent<RectTransform>().position = new Vector3(350, -150, 0);
+        //    weapongreen.GetComponent<RectTransform>().position = new Vector3(350, -150, 0);
+        //    weaponred.GetComponent<RectTransform>().position = new Vector3(350, -150, 0);
+        //}
         reloading.GetComponent<Slider>().value = reload;
         if (Input.GetKey(KeyCode.Mouse1))
         {

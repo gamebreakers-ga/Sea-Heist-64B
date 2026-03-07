@@ -20,7 +20,7 @@ public class explosion : MonoBehaviour
     {
         timer += Time.deltaTime;
         GetComponent<Transform>().localScale += grow;
-        if (timer >= 1f)
+        if (timer >= 5f)
         {
             Destroy(gameObject);
         }
