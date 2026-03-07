@@ -20,16 +20,21 @@ public class Begin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && started == false)
-        {
-            SceneManager.LoadScene("SampleScene");
-            started = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && started == false)
+        //{
+        //    SceneManager.LoadScene("SampleScene");
+        //    started = true;
+        //}
 
     }
     public void startgame()
     { 
         SceneManager.LoadScene("SampleScene");
+        started = true;
+    }
+    public void testgen()
+    {
+        SceneManager.LoadScene("Level gen");
         started = true;
     }
 }
