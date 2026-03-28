@@ -17,6 +17,12 @@ TagManager:
   - notouch
   - time
   - back2menu
+  - Doorway
+  - Entrance
+  - used
+  - floor
+  - wall
+  - sidewall
   layers:
   - Default
   - TransparentFX

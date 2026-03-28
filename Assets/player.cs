@@ -59,11 +59,16 @@ public class player : MonoBehaviour
 
     public bool key;
 
-    Scene currentScene = SceneManager.GetActiveScene();
+    public Scene currentScene;
+
+    public GameObject RoomGen;
+    public int difficulty = 3;
+    
     public static player Instance { get; private set; } // Global access point
     // Start is called before the first frame update
     void Awake()
     {
+        Scene currentScene = SceneManager.GetActiveScene();
         health = 100;
         open = false;
         key = false;
@@ -282,7 +287,17 @@ public class player : MonoBehaviour
                 GetComponent<Rigidbody>().freezeRotation = false;
                 getuptimer = 0;
             }
-       
+
+        RoomGen = GameObject.Find("RoomGenerator");
+
+        if (RoomGen && Input.GetKeyDown(KeyCode.Equals))
+        {
+            difficulty += 1;
+        }
+        if (RoomGen)
+        {
+            RoomGen.GetComponent<RoomGen>().difficulty = difficulty;
+        }
     }
 
     bool IsGrounded()
