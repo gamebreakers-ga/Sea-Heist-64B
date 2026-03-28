@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GuardScript : MonoBehaviour
+public class GuardScript : MonoBehaviour, IHostile
 {
     // Start is called before the first frame update
     public GameObject bullet;
@@ -23,9 +23,12 @@ public class GuardScript : MonoBehaviour
 
     public float DetectionLevel;
     public float LastAlert = 6;
-    public Vector3 AlertPosition; 
+    public Vector3 AlertPosition;
+
+    public float Health = 30;
     void Start()
     {
+        
         Player = GameObject.FindGameObjectWithTag("Player");
         NodeInPatrol = Random.Range(0, PatrolRoute.Length);
         Player.GetComponent<FirstPersonControllerScript>().GuardScripts.Add(this);
@@ -120,10 +123,10 @@ public class GuardScript : MonoBehaviour
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         return PatrolRoute[NodeInPatrol];
     }
-
+    
     public void ApplyDamage(float damage)
     {
-
+        Health -= damage;
     }
 
     public void Lure(Vector3 Position)

@@ -29,7 +29,7 @@ public class LevelManager : MonoBehaviour
     //    }
     //}
 
-    public GameObject GetRandom(GameObject[] GameObjects)
+    public T GetRandom<T>(T[] GameObjects)
     {
         return GameObjects[Random.Range(0, GameObjects.Length)];
     }
