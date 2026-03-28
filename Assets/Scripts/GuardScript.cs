@@ -121,6 +121,11 @@ public class GuardScript : MonoBehaviour
         return PatrolRoute[NodeInPatrol];
     }
 
+    public void ApplyDamage(float damage)
+    {
+
+    }
+
     public void Lure(Vector3 Position)
     {
         DetectionLevel += 33f;
