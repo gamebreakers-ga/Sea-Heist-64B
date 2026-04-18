@@ -77,7 +77,6 @@ public class player : MonoBehaviour
         redicon.gameObject.SetActive(true);
         blueicon.gameObject.SetActive(false);
         greenicon.gameObject.SetActive(false);
-
     }
 
     // Update is called once per frame

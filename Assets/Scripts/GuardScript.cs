@@ -26,6 +26,10 @@ public class GuardScript : MonoBehaviour, IHostile
     public Vector3 AlertPosition;
 
     public float Health { get; private set; } = 30;
+
+    public FN Gun;
+
+    public Transform cameraPosition { get; private set; }
     void Start()
     {
         
@@ -35,6 +39,10 @@ public class GuardScript : MonoBehaviour, IHostile
         nma = GetComponent<NavMeshAgent>();
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         PatrolingState = PatrolingStatus.Enroute;
+
+        Gun = new(this);
+
+        cameraPosition = GetComponent<GuardDetectionScript>().gameObject.transform;
     }
 
     // Update is called once per frame
@@ -99,10 +107,9 @@ public class GuardScript : MonoBehaviour, IHostile
             {
                 Quaternion rot = Quaternion.FromToRotation(Player.transform.position, gameObject.transform.position);
                 nma.isStopped = true;
-                if (rot.x < 10 && rot.y < 10 && rot.z < 10 && fireLimit > 5)
+                if (rot.x < 10 && rot.y < 10 && rot.z < 10)
                 {
-                    fireLimit = 0;
-                    Instantiate(bullet, transform.position + (gameObject.transform.forward * 2), transform.rotation);
+                    Gun.Shoot();
                 }
                 transform.LookAt(Player.transform);
             } else

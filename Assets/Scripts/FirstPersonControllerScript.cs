@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class FirstPersonControllerScript : MonoBehaviour
+public class FirstPersonControllerScript : MonoBehaviour, IHostile
 {
     public Vector3 moveDirection;
     public float speed;
@@ -10,7 +10,7 @@ public class FirstPersonControllerScript : MonoBehaviour
 
     public LayerMask groundMask;
 
-    public Transform cameraPosition;
+    public Transform cameraPosition { get; private set; }
     public LayerMask interactMask;
     public LayerMask EnemyLayer;
 
@@ -21,6 +21,8 @@ public class FirstPersonControllerScript : MonoBehaviour
     public List<GuardScript> GuardScripts;
 
     public Selector<IPaint> paints;
+
+    public float Health { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -90,6 +92,15 @@ public class FirstPersonControllerScript : MonoBehaviour
             return hit.collider.gameObject.CompareTag("Ground");
         }
         return false;    
+    }
+
+    public void ApplyDamage(float damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     //public void SetDetection()

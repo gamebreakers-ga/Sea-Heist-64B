@@ -20,7 +20,7 @@ public interface IPaint
 
 public class Barrett : IPaint
 {
-    private FirstPersonControllerScript _Player { get; set; }
+    private IHostile _Player { get; set; }
     public string Name => "Barrett M82";
     public float Range => 80;
     public int MagizineSize => 5;
@@ -30,7 +30,7 @@ public class Barrett : IPaint
 
     public TimeSpan FireRate => TimeSpan.FromSeconds(1);
     public Stopwatch FireRateTimer { get; } = new();
-    public Barrett(FirstPersonControllerScript player)
+    public Barrett(IHostile player)
     {
         _Player = player;
         FireRateTimer.Start();
@@ -68,7 +68,7 @@ public class Barrett : IPaint
 
 public class AR : IPaint
 {
-    private FirstPersonControllerScript _Player { get; set; }
+    private IHostile _Player { get; set; }
     public string Name => "AR-57";
     public float Range => 30;
     public int MagizineSize => 25;
@@ -78,7 +78,7 @@ public class AR : IPaint
 
     public TimeSpan FireRate => TimeSpan.FromSeconds(0.5);
     public Stopwatch FireRateTimer { get; } = new();
-    public AR( FirstPersonControllerScript player)
+    public AR(IHostile player)
     {
         _Player = player;
         FireRateTimer.Start();
@@ -116,7 +116,7 @@ public class AR : IPaint
 
 public class PhonePistol : IPaint
 {
-    private FirstPersonControllerScript _Player { get; set; }
+    private IHostile _Player { get; set; }
     public string Name => "Ideal Conceal";
     public float Range => 10;
     public int MagizineSize => 3;
@@ -126,7 +126,7 @@ public class PhonePistol : IPaint
 
     public TimeSpan FireRate => TimeSpan.FromSeconds(1);
     public Stopwatch FireRateTimer { get; } = new();
-    public PhonePistol(FirstPersonControllerScript player)
+    public PhonePistol(IHostile player)
     {
         _Player = player;
     }
@@ -162,7 +162,7 @@ public class PhonePistol : IPaint
 
 public class FN : IPaint
 {
-    private FirstPersonControllerScript _Player { get; set; }
+    private IHostile _Player { get; set; }
     public string Name => "FN 510";
     public float Range => 20;
     public int MagizineSize => 28;
@@ -172,7 +172,7 @@ public class FN : IPaint
 
     public TimeSpan FireRate => TimeSpan.FromSeconds(9);
     public Stopwatch FireRateTimer { get; } = new();
-    public FN(FirstPersonControllerScript player)
+    public FN(IHostile player)
     {
         _Player = player;
     }

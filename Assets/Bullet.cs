@@ -7,4 +7,6 @@ public interface IHostile
 {
     float Health { get; }
     void ApplyDamage(float Damage);
+    Transform transform { get;  }
+    Transform cameraPosition { get;  }
 }
