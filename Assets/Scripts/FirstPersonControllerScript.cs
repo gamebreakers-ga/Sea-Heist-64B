@@ -20,6 +20,7 @@ public class FirstPersonControllerScript : MonoBehaviour
 
     public List<GuardScript> GuardScripts;
 
+    public Selector<IPaint> paints;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,8 @@ public class FirstPersonControllerScript : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
 
         DetectionSlider = GetComponentInChildren<Slider>();
+        paints = new(3) { new FN(this) };
+        paints.Select(0);
     }
 
     // Update is called once per frame
@@ -39,6 +42,18 @@ public class FirstPersonControllerScript : MonoBehaviour
 
         moveDirection = new Vector3(x, 0, z);
         transform.Translate(speed * Time.deltaTime * moveDirection);
+
+        for (int  i = 0; i < 10; i++)
+        {
+            if (Input.GetKeyDown(i.ToString())) {
+                paints.Select(i);
+            }
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            paints.Selected.Shoot(); 
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {

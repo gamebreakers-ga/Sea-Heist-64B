@@ -57,6 +57,9 @@ public class player : MonoBehaviour
     public GameObject greenicon;
 
     public bool key;
+
+    public Selector<IPaint> paints;
+
     // Start is called before the first frame update
     void Start()
     {

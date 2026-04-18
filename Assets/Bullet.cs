@@ -5,5 +5,6 @@ using System;
 
 public interface IHostile
 {
+    float Health { get; }
     void ApplyDamage(float Damage);
 }

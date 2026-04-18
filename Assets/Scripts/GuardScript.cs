@@ -25,7 +25,7 @@ public class GuardScript : MonoBehaviour, IHostile
     public float LastAlert = 6;
     public Vector3 AlertPosition;
 
-    public float Health = 30;
+    public float Health { get; private set; } = 30;
     void Start()
     {
         
@@ -127,6 +127,10 @@ public class GuardScript : MonoBehaviour, IHostile
     public void ApplyDamage(float damage)
     {
         Health -= damage;
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Lure(Vector3 Position)

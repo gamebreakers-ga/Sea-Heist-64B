@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Threading.Tasks;
-using System;
 using System.Diagnostics;
+using System;
+
 public interface IPaint
 {
     string Name { get; }
@@ -11,7 +12,7 @@ public interface IPaint
     float Range { get; }
     float Damage { get; }
 
-    float FireRate { get; }
+    TimeSpan FireRate { get; }
     Stopwatch FireRateTimer { get; }
     void Shoot();
     Task Reload();
@@ -27,7 +28,7 @@ public class Barrett : IPaint
     public int Ammo { get; private set; }
     public bool IsReloading { get; private set; }
 
-    public float FireRate => 1000;
+    public TimeSpan FireRate => TimeSpan.FromSeconds(1);
     public Stopwatch FireRateTimer { get; } = new();
     public Barrett(FirstPersonControllerScript player)
     {
@@ -37,12 +38,14 @@ public class Barrett : IPaint
 
     public async void Shoot()
     {
-        if (FireRateTimer.ElapsedMilliseconds < FireRate) return;
         
         if (Ammo == 0)
         {
             await Reload();
-        } else
+        } else if (FireRateTimer.Elapsed < FireRate)
+        {
+            return;
+        } else 
         {
             Ammo--;
             if (Physics.Raycast(_Player.transform.position, _Player.cameraPosition.forward, out RaycastHit hit, Range))
@@ -73,7 +76,7 @@ public class AR : IPaint
     public int Ammo { get; private set; }
     public bool IsReloading { get; private set; }
 
-    public float FireRate => 1000 * (15/60);
+    public TimeSpan FireRate => TimeSpan.FromSeconds(0.5);
     public Stopwatch FireRateTimer { get; } = new();
     public AR( FirstPersonControllerScript player)
     {
@@ -83,13 +86,14 @@ public class AR : IPaint
 
     public async void Shoot()
     {
-        if (FireRateTimer.ElapsedMilliseconds < FireRate) return;
 
         if (Ammo == 0)
         {
             await Reload();
-        }
-        else
+        } else if (FireRateTimer.Elapsed < FireRate)
+        {
+            return;
+        } else
         {
             Ammo--;
             if (Physics.Raycast(_Player.transform.position, _Player.cameraPosition.forward, out RaycastHit hit, Range))
@@ -120,8 +124,8 @@ public class PhonePistol : IPaint
     public int Ammo { get; private set; }
     public bool IsReloading { get; private set; }
 
-    public float FireRate => default;
-    public Stopwatch FireRateTimer => null;
+    public TimeSpan FireRate => TimeSpan.FromSeconds(1);
+    public Stopwatch FireRateTimer { get; } = new();
     public PhonePistol(FirstPersonControllerScript player)
     {
         _Player = player;
@@ -133,8 +137,10 @@ public class PhonePistol : IPaint
         if (Ammo == 0)
         {
             await Reload();
-        }
-        else
+        } else if (FireRateTimer.Elapsed < FireRate)
+        {
+            return;
+        } else
         {
             Ammo--;
             if (Physics.Raycast(_Player.transform.position, _Player.cameraPosition.forward, out RaycastHit hit, Range))
@@ -164,8 +170,8 @@ public class FN : IPaint
     public int Ammo { get; private set; }
     public bool IsReloading { get; private set; }
 
-    public float FireRate => 1000 * (9/60);
-    public Stopwatch FireRateTimer { get; } = null;
+    public TimeSpan FireRate => TimeSpan.FromSeconds(9);
+    public Stopwatch FireRateTimer { get; } = new();
     public FN(FirstPersonControllerScript player)
     {
         _Player = player;
@@ -173,13 +179,14 @@ public class FN : IPaint
 
     public async void Shoot()
     {
-        if (FireRateTimer.ElapsedMilliseconds < FireRate) return;
 
         if (Ammo == 0)
         {
             await Reload();
-        }
-        else
+        } else if (FireRateTimer.Elapsed < FireRate)
+        {
+            return;
+        } else
         {
             Ammo--;
             if (Physics.Raycast(_Player.transform.position, _Player.cameraPosition.forward, out RaycastHit hit, Range))
