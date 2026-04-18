@@ -42,8 +42,12 @@ public class GuardScript : MonoBehaviour, IHostile
 
         Gun = new(this);
 
-        cameraPosition = GetComponent<GuardDetectionScript>().gameObject.transform;
+        cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
+        
+        Debug.Log(cameraPosition is null ? "is null" : "not null");
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -109,6 +113,7 @@ public class GuardScript : MonoBehaviour, IHostile
                 nma.isStopped = true;
                 if (rot.x < 10 && rot.y < 10 && rot.z < 10)
                 {
+                    Debug.Log("Fireing");
                     Gun.Shoot();
                 }
                 transform.LookAt(Player.transform);
@@ -134,6 +139,7 @@ public class GuardScript : MonoBehaviour, IHostile
     public void ApplyDamage(float damage)
     {
         Health -= damage;
+        Debug.Log($"Hit: {Health}");
         if (Health <= 0)
         {
             Destroy(gameObject);

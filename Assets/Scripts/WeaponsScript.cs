@@ -164,13 +164,13 @@ public class FN : IPaint
 {
     private IHostile _Player { get; set; }
     public string Name => "FN 510";
-    public float Range => 20;
+    public float Range => 1000;
     public int MagizineSize => 28;
     public float Damage => 20;
     public int Ammo { get; private set; }
     public bool IsReloading { get; private set; }
 
-    public TimeSpan FireRate => TimeSpan.FromSeconds(9);
+    public TimeSpan FireRate => TimeSpan.FromSeconds(0.2);
     public Stopwatch FireRateTimer { get; } = new();
     public FN(IHostile player)
     {
@@ -182,18 +182,25 @@ public class FN : IPaint
 
         if (Ammo == 0)
         {
+            UnityEngine.Debug.Log(" no ammo reloading");
             await Reload();
         } else if (FireRateTimer.Elapsed < FireRate)
         {
             return;
         } else
         {
+            UnityEngine.Debug.Log("try fire");
             Ammo--;
-            if (Physics.Raycast(_Player.transform.position, _Player.cameraPosition.forward, out RaycastHit hit, Range))
+            foreach (RaycastHit hit in Physics.RaycastAll(_Player.transform.position, _Player.cameraPosition.forward, Range))
             {
+                UnityEngine.Debug.Log("checking hit");
+                if (hit.collider.gameObject == _Player.cameraPosition.gameObject) continue;
+                UnityEngine.Debug.Log("Valid hit");
                 if (hit.collider.gameObject.TryGetComponent<IHostile>(out IHostile script))
                 {
+                    UnityEngine.Debug.Log("Damaging");
                     script.ApplyDamage(Damage);
+                    break;
                 }
             }
         }

@@ -293,6 +293,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5703171955097148603, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8689751158432982210, guid: 077ee0aa8c55ca84091ce9a81b39dc0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 60.5395
@@ -655,7 +659,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0137de25fcecea4681aca7973fb98d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: {fileID: 0}
+  GuardNodes: []
+  PoliceNodes: []
+  GuardPrefab: {fileID: 0}
+  PolicePrefab: {fileID: 0}
 --- !u!1 &1548193529
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,7 +826,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 0
-  cameraPosition: {fileID: 0}
   interactMask:
     serializedVersion: 2
     m_Bits: 0

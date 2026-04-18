@@ -54,6 +54,7 @@ public class FirstPersonControllerScript : MonoBehaviour, IHostile
 
         if (Input.GetMouseButton(0))
         {
+            Debug.Log("Mouse pressed");
             paints.Selected.Shoot(); 
         }
 
@@ -97,6 +98,7 @@ public class FirstPersonControllerScript : MonoBehaviour, IHostile
     public void ApplyDamage(float damage)
     {
         Health -= damage;
+        Debug.Log($"Hit: {Health}");
         if (Health <= 0)
         {
             Destroy(gameObject);
