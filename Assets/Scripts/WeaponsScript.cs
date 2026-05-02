@@ -210,6 +210,7 @@ public class FN : IPaint
 
     public async Task Reload()
     {
+        UnityEngine.Debug.Log("Reloading");
         await Task.Delay(1000 * (17 / 60));
         Ammo = (Ammo > 0) ? MagizineSize + 1 : MagizineSize;
     }

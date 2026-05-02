@@ -105,6 +105,11 @@ public class player : MonoBehaviour, IHostile
             paints.Selected.Shoot();
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            paints.Selected.Reload();
+        }
+
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
         
