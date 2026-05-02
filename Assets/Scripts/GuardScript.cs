@@ -24,12 +24,16 @@ public class GuardScript : MonoBehaviour, IHostile
     public float DetectionLevel;
     public float LastAlert = 6;
     public Vector3 AlertPosition;
-
-    public float Health { get; private set; } = 30;
+    public LayerMask TargetLayer;
+    public LayerMask EnemyLayer => TargetLayer;
+    public float Health { get; protected set; } = 30;
 
     public FN Gun;
+    
+    public Transform cameraPosition { get; protected set; }
+    public Vector3 cameraFoward => -cameraPosition.forward;
 
-    public Transform cameraPosition { get; private set; }
+    public Rigidbody rb;
     void Start()
     {
         
@@ -45,6 +49,8 @@ public class GuardScript : MonoBehaviour, IHostile
         cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
         
         Debug.Log(cameraPosition is null ? "is null" : "not null");
+
+        rb = GetComponent<Rigidbody>();
     }
 
     
@@ -122,6 +128,11 @@ public class GuardScript : MonoBehaviour, IHostile
                 nma.destination = Player.transform.position;
                 nma.isStopped = false;
             }
+        }
+
+        if (nma.isStopped)
+        {
+            rb.velocity = new Vector3(0, 0, 0); 
         }
     }
 

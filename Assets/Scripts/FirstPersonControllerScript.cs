@@ -10,9 +10,12 @@ public class FirstPersonControllerScript : MonoBehaviour, IHostile
 
     public LayerMask groundMask;
 
-    public Transform cameraPosition { get; private set; }
+    public Transform cameraPosition { get; protected set; }
+    public Vector3 cameraFoward => cameraPosition.forward;
     public LayerMask interactMask;
-    public LayerMask EnemyLayer;
+
+    public LayerMask TargetLayer;
+    public LayerMask EnemyLayer => TargetLayer;
 
     public Rigidbody rigidBody;
 
@@ -20,9 +23,9 @@ public class FirstPersonControllerScript : MonoBehaviour, IHostile
 
     public List<GuardScript> GuardScripts;
 
-    public Selector<IPaint> paints;
+    public Selection<IPaint> paints;
 
-    public float Health { get; private set; }
+    public float Health { get; protected set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +34,7 @@ public class FirstPersonControllerScript : MonoBehaviour, IHostile
 
         DetectionSlider = GetComponentInChildren<Slider>();
         paints = new(3) { new FN(this) };
-        paints.Select(0);
+        paints.TrySelect(0);
     }
 
     // Update is called once per frame
@@ -48,7 +51,7 @@ public class FirstPersonControllerScript : MonoBehaviour, IHostile
         for (int  i = 0; i < 10; i++)
         {
             if (Input.GetKeyDown(i.ToString())) {
-                paints.Select(i);
+                paints.TrySelect(i);
             }
         }
 

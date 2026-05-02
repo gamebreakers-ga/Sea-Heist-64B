@@ -5,8 +5,10 @@ using System;
 
 public interface IHostile
 {
-    float Health { get; }
-    void ApplyDamage(float Damage);
-    Transform transform { get;  }
-    Transform cameraPosition { get;  }
+    public float Health { get; }
+    public void ApplyDamage(float Damage);
+    public Transform cameraPosition { get; }
+    public LayerMask EnemyLayer { get; }
+    public Transform transform { get; }
+    public Vector3 cameraFoward { get; }
 }
