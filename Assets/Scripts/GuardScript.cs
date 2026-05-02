@@ -11,14 +11,16 @@ public class GuardScript : MonoBehaviour, IHostile
     private GameObject Player;
     public float MovementSpeed;
     public float RotationSpeed;
-
+    public Rigidbody rb;
+    public NavMeshAgent nma;
     public GameObject[] PatrolRoute;
     public int NodeInPatrol;
     public PatrolingStatus PatrolingState = PatrolingStatus.Enroute;
     public PatrolingStatus LastPatrolState = PatrolingStatus.Enroute;
     public GuardStatus Status = GuardStatus.Calm;
     public float TimeAtSentry;
-    public NavMeshAgent nma;
+    
+    
     float fireLimit = 0;
 
     public float DetectionLevel;
@@ -33,13 +35,13 @@ public class GuardScript : MonoBehaviour, IHostile
     public Transform cameraPosition { get; protected set; }
     public Vector3 cameraFoward => -cameraPosition.forward;
 
-    public Rigidbody rb;
+    
     void Start()
     {
         
         Player = GameObject.FindGameObjectWithTag("Player");
         NodeInPatrol = Random.Range(0, PatrolRoute.Length);
-        Player.GetComponent<FirstPersonControllerScript>().GuardScripts.Add(this);
+        //Player.GetComponent<FirstPersonControllerScript>().GuardScripts.Add(this);
         nma = GetComponent<NavMeshAgent>();
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         PatrolingState = PatrolingStatus.Enroute;
