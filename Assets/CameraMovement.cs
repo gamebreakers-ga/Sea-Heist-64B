@@ -51,27 +51,14 @@ public class CameraMovement : MonoBehaviour
         //weapon = "red";
         //reloadmin = 3f;
 
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
-        reloadmax = reloadmin + 0.5f;
-        //if (Input.GetKeyDown("1"))
-        //{
-        //    weaponred.gameObject.SetActive(true);
-        //    weaponblue.gameObject.SetActive(false);
-        //    weapongreen.gameObject.SetActive(false);
-        //    maxammo = 10;
-        //    ammo = 0;
-        //    reload = 0;
-        //    reloading.gameObject.SetActive(true);
-        //    shoottime = 1;
-        //    multishot = false;
-        //    weapon = "red";
-        //    reloadmin = 3f;
-        //}
 
         // if (Input.GetKeyDown("2") && playerbody.GetComponent<player>().ownblue)
         //{

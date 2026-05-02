@@ -87,7 +87,7 @@ public class AR : IPaint
 
     public async void Shoot()
     {
-
+        UnityEngine.Debug.Log("Shooting");
         if (Ammo == 0)
         {
             UnityEngine.Debug.Log(" no ammo reloading");
@@ -136,7 +136,7 @@ public class PhonePistol : IPaint
 
     public async void Shoot()
     {
-
+        UnityEngine.Debug.Log("Shooting");
         if (Ammo == 0)
         {
             UnityEngine.Debug.Log(" no ammo reloading");
@@ -185,7 +185,7 @@ public class FN : IPaint
 
     public async void Shoot()
     {
-
+        UnityEngine.Debug.Log("Shooting");
         if (Ammo == 0)
         {
             UnityEngine.Debug.Log(" no ammo reloading");

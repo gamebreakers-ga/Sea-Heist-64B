@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class player : MonoBehaviour
+public class player : MonoBehaviour, IHostile
 {
-    public int health;
     public bool open;
     public Vector3 moveDirection;
     public float speed;
@@ -21,7 +20,6 @@ public class player : MonoBehaviour
 
     public bool itemHeld;
     public GameObject currentItem;
-    public Transform cameraPosition;
     public LayerMask interactMask;
     public GameObject bullet;
     public GameObject looking;
@@ -45,6 +43,8 @@ public class player : MonoBehaviour
     public Quaternion standardrotate;
 
     public Transform camPiv;
+    public Transform cameraPosition => camPiv;
+    public Vector3 cameraFoward => cameraPosition.forward;
 
     public bool atstore = false;
     public bool inui = false;
@@ -58,12 +58,16 @@ public class player : MonoBehaviour
 
     public bool key;
 
-    public Selector<IPaint> paints;
+    public Selection<IPaint> paints;
+
+    public LayerMask TargetLayer;
+    public LayerMask EnemyLayer => TargetLayer;
+    public float Health { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        health = 100;
+        Health = 100;
         open = false;
         key=false;
         ko = false;
@@ -77,13 +81,32 @@ public class player : MonoBehaviour
         redicon.gameObject.SetActive(true);
         blueicon.gameObject.SetActive(false);
         greenicon.gameObject.SetActive(false);
+
+        paints = new Selection<IPaint>(3) { new FN(this) };
+        Debug.Log(paints.TrySelect(0));
     }
 
     // Update is called once per frame
     void Update()
     {
-            float x = Input.GetAxisRaw("Horizontal");
-            float z = Input.GetAxisRaw("Vertical");
+        if (Input.GetKeyDown("1"))
+        {
+            paints.TrySelect(0);
+        } else if (Input.GetKeyDown("2"))
+        {
+            paints.TrySelect(1);
+        } else if (Input.GetKeyDown("3"))
+        {
+            paints.TrySelect(2);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            paints.Selected.Shoot();
+        }
+
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
         
         if (Input.GetKey(KeyCode.LeftControl))
         {
@@ -146,11 +169,11 @@ public class player : MonoBehaviour
             //buythings
             if (Input.GetKeyDown(KeyCode.U))
             {
-                ownblue = true;
+                paints.TryAdd(new PhonePistol(this));
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
-                owngreen = true;
+                paints.TryAdd(new AR(this));
             }
         }
 
@@ -280,6 +303,16 @@ public class player : MonoBehaviour
         }
 
     }
+
+    public void ApplyDamage(float damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            Debug.Log("DEAD");
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "bomb")

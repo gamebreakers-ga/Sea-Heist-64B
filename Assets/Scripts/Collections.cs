@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System;
 
+[Serializable]
 public class Selection<T> : IEnumerable<T> where T : class
 {
     private T[] _Items;
@@ -22,7 +23,7 @@ public class Selection<T> : IEnumerable<T> where T : class
             _Current = value;
         }
     }
-    public T Selected => _Items[Current];
+    public T Selected => _Items[_Current];
 
     public Selection(int Capacity = 0)
     {
