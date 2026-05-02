@@ -41,14 +41,4 @@ public class DoorwayLinker : MonoBehaviour
             }
         }
     }
-    private void OnCollisionStay(Collision collision)
-    {
-        if (rancode)
-        {
-            if (collision.gameObject.tag != "floor" && collision.gameObject.tag != "Player")
-            {
-                Destroy(collision.gameObject);
-            }
-        }
-    }
 }

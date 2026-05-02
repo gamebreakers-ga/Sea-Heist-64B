@@ -23,6 +23,7 @@ TagManager:
   - floor
   - wall
   - sidewall
+  - patrolnode
   layers:
   - Default
   - TransparentFX

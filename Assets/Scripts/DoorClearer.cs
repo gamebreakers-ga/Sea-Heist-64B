@@ -19,7 +19,6 @@ public class DoorClearer : MonoBehaviour
     {
         if (collision.gameObject.tag == "door")
         {
-            Debug.Log("Help!");
             Destroy(gameObject);
         }
     }
