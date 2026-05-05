@@ -23,7 +23,21 @@ public class GuardScript : MonoBehaviour
 
     public float DetectionLevel;
     public float LastAlert = 6;
+<<<<<<< Updated upstream
     public Vector3 AlertPosition; 
+=======
+    public Vector3 AlertPosition;
+    public LayerMask TargetLayer;
+    public LayerMask EnemyLayer => TargetLayer;
+    public float Health { get; protected set; } = 30;
+
+    public FN<IPlayer> Gun;
+    
+    public Transform cameraPosition { get; protected set; }
+    public Vector3 cameraFoward => -cameraPosition.forward;
+
+    
+>>>>>>> Stashed changes
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -32,6 +46,14 @@ public class GuardScript : MonoBehaviour
         nma = GetComponent<NavMeshAgent>();
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         PatrolingState = PatrolingStatus.Enroute;
+<<<<<<< Updated upstream
+=======
+
+        Gun = new FN<IPlayer>(this);
+
+        cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
+        rb = GetComponent<Rigidbody>();
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
