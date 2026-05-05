@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GuardScript : MonoBehaviour
+public class GuardScript : MonoBehaviour, IHostile
 {
     // Start is called before the first frame update
     public GameObject bullet;
@@ -23,10 +23,8 @@ public class GuardScript : MonoBehaviour
 
     public float DetectionLevel;
     public float LastAlert = 6;
-<<<<<<< Updated upstream
+
     public Vector3 AlertPosition; 
-=======
-    public Vector3 AlertPosition;
     public LayerMask TargetLayer;
     public LayerMask EnemyLayer => TargetLayer;
     public float Health { get; protected set; } = 30;
@@ -36,24 +34,20 @@ public class GuardScript : MonoBehaviour
     public Transform cameraPosition { get; protected set; }
     public Vector3 cameraFoward => -cameraPosition.forward;
 
-    
->>>>>>> Stashed changes
+    public Rigidbody rb;
+
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         NodeInPatrol = Random.Range(0, PatrolRoute.Length);
-        Player.GetComponent<FirstPersonControllerScript>().GuardScripts.Add(this);
         nma = GetComponent<NavMeshAgent>();
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         PatrolingState = PatrolingStatus.Enroute;
-<<<<<<< Updated upstream
-=======
 
         Gun = new FN<IPlayer>(this);
 
         cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
-        rb = GetComponent<Rigidbody>();
->>>>>>> Stashed changes
+        rb = GetComponent<Rigidbody>();  
     }
 
     // Update is called once per frame
@@ -148,6 +142,16 @@ public class GuardScript : MonoBehaviour
         DetectionLevel += 33f;
         LastAlert = 0;
     }
+
+    public void ApplyDamage(float Damage)
+    {
+        Health -= Damage;
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public enum GuardStatus 
     {
         Calm,
