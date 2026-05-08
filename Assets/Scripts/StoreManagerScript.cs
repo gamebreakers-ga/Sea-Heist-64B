@@ -7,7 +7,7 @@ public class StoreManagerScript : MonoBehaviour
 {
     public GameManagerScript GM;
 
-    public Dictionary<IPaint, float> Guns; 
+    public Dictionary<Paint, float> Guns; 
     private void Awake()
     {
         GM = GameObject.Find("Terrain").GetComponent<GameManagerScript>(); 

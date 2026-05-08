@@ -35,7 +35,7 @@ public class GuardScript : MonoBehaviour, IHostile
     public Vector3 cameraFoward => -cameraPosition.forward;
 
     public Rigidbody rb;
-
+    public LineRenderer LineRenderer { get; private set; }
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -47,7 +47,9 @@ public class GuardScript : MonoBehaviour, IHostile
         Gun = new FN<IPlayer>(this);
 
         cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
-        rb = GetComponent<Rigidbody>();  
+        rb = GetComponent<Rigidbody>();
+
+        LineRenderer = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame

@@ -8,6 +8,7 @@ public interface IEntity
     public Transform cameraPosition { get; }
     public Transform transform { get; }
     public Vector3 cameraFoward { get; }
+    public LineRenderer LineRenderer { get; }
 }
 
 public interface IPlayer : IEntity

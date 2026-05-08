@@ -20,9 +20,9 @@ public class Player : MonoBehaviour, IPlayer
 
     public GameObject looking;
 
-    public float stamina;
+    public float Stamina;
     public float staregen;
-    public Slider sprintbar;
+    
 
     public bool broken;
     public Vector3 reset;
@@ -39,18 +39,28 @@ public class Player : MonoBehaviour, IPlayer
 
     public bool key;
 
-    public Selection<IPaint<IHostile>> Paints;
+    public Selection<Paint<IHostile>> Paints;
     public float Health { get; set; } = 100;
 
     public TextMeshProUGUI AmmoDisplay;
+    public Slider HealthSlider;
+    public Slider StaminaSlider;
 
+    public LineRenderer LineRenderer { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
-        Paints = new Selection<IPaint<IHostile>>(3) { new FN<IHostile>(this) };
+        Cursor.lockState = CursorLockMode.Locked;
+        Paints = new Selection<Paint<IHostile>>(3) { new FN<IHostile>(this) };
         Paints.TrySelect(0);
 
         rb = GetComponent<Rigidbody>();
+
+        AmmoDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();
+        HealthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
+        StaminaSlider = GameObject.Find("StaminaSlider").GetComponent<Slider>();
+        Stamina = 100;
+        LineRenderer = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -145,10 +155,10 @@ public class Player : MonoBehaviour, IPlayer
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) && stamina > 0 && crouch == false)
+        if (Input.GetKey(KeyCode.LeftShift) && Stamina > 0 && crouch == false)
         {
             speed = 9;
-            stamina -= Time.deltaTime;
+            Stamina -= Time.deltaTime;
             staregen = 0;
             
         }
@@ -158,13 +168,13 @@ public class Player : MonoBehaviour, IPlayer
             staregen += Time.deltaTime;
             if (staregen >= 3)
             {
-                stamina += Time.deltaTime;
+                Stamina += Time.deltaTime;
             }
         }
-        sprintbar.GetComponent<Slider>().value = stamina;
-        if (stamina > 10)
+        StaminaSlider.GetComponent<Slider>().value = Stamina;
+        if (Stamina > 100)
         {
-            stamina = 10;
+            Stamina = 100;
         }
         if (staregen > 3)
         {
@@ -173,6 +183,19 @@ public class Player : MonoBehaviour, IPlayer
         if (staregen < 0)
         {
             staregen = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        {
+            if (Stamina >= 10)
+            {
+                rb.AddForce(new Vector3(0, jumpForce, 0));
+                Stamina -= 10;
+            } else 
+            {
+                rb.AddForce(new Vector3(0, jumpForce * (Stamina/10), 0));
+                Stamina = 0;
+            }
         }
     }
 
@@ -184,6 +207,9 @@ public class Player : MonoBehaviour, IPlayer
     public void ApplyDamage(float damage)
     {
         Health -= damage;
+
+        HealthSlider.value = Health;
+
         if (Health <= 0)
         {
             Debug.Log("DEAD");
