@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
+    public GameObject player;
+
     public float timer;
     // Start is called before the first frame update
     void Start()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -16,7 +18,7 @@ public class BulletScript : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        transform.Translate(Vector3.forward);
+        transform.Translate(new Vector3(0, 0, 0.5f));
 
         if (timer >= 5)
         {
@@ -27,7 +29,9 @@ public class BulletScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            player.GetComponent<player>().getuptimer = 0;
+            player.GetComponent<player>().ko = true;
+            player.GetComponent<Rigidbody>().freezeRotation = false;
         }
     }
 }

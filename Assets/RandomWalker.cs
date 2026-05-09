@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI; // Required for NavMesh
-
+using System.Collections;
 public class RandomWalker : MonoBehaviour
 {
     public float patrolRadius = 20f; // The agent will wander within this radius from its starting point
@@ -11,27 +11,67 @@ public class RandomWalker : MonoBehaviour
     private Vector3 startPosition;
     private float waitTime;
 
+    public GameObject GuardManager;
+
+    public GameObject player;
+
+    public Vector3 playerpos;
+
+    public float shoottimer = 0;
+
+    public GameObject bullet;
+
+    public int health = 5;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         startPosition = transform.position;
         waitTime = Random.Range(minWaitTime, maxWaitTime); // Initial wait time
+        GuardManager = GameObject.Find("GuardManager");
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        StartCoroutine(RemoveIfStuck());
     }
 
     void Update()
     {
-        // Check if the agent is close to its current destination
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        playerpos = player.GetComponent<Transform>().position;
+        if (GuardManager.GetComponent<GuardManager>().detected == false)
         {
-            // If so, start or continue waiting
-            waitTime -= Time.deltaTime;
-            if (waitTime <= 0)
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                // Time is up, find a new random destination
-                Vector3 newPos = RandomNavmeshLocation(patrolRadius);
-                agent.SetDestination(newPos);
-                waitTime = Random.Range(minWaitTime, maxWaitTime); // Reset wait time
+                // If so, start or continue waiting
+                waitTime -= Time.deltaTime;
+                if (waitTime <= 0)
+                {
+                    // Time is up, find a new random destination
+                    Vector3 newPos = RandomNavmeshLocation(patrolRadius);
+                    agent.SetDestination(newPos);
+                    waitTime = Random.Range(minWaitTime, maxWaitTime); // Reset wait time
+                }
             }
+        }
+        else
+        {
+            shoottimer += Time.deltaTime;
+            agent.SetDestination(playerpos);
+            if (shoottimer >= 3)
+            {
+                Instantiate(bullet, transform.position + (gameObject.transform.forward), gameObject.transform.rotation);
+                shoottimer = 0;
+            }
+        }
+        if (health == 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    IEnumerator RemoveIfStuck()
+    {
+        yield return new WaitForSeconds(10);
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, Mathf.Infinity, 6)) {
+            transform.position = hitInfo.transform.position;
         }
     }
 
@@ -49,5 +89,12 @@ public class RandomWalker : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
+    }
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == ("bullet"))
+        {
+            health -= 1;
+        }
     }
 }

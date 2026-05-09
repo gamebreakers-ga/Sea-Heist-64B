@@ -63,7 +63,8 @@ public class player : MonoBehaviour
 
     public GameObject RoomGen;
     public int difficulty = 3;
-    
+
+    public int fishHeld;
     public static player Instance { get; private set; } // Global access point
     // Start is called before the first frame update
     void Awake()
@@ -167,13 +168,15 @@ public class player : MonoBehaviour
             if (atstore)
             {
                 //buythings
-                if (Input.GetKeyDown(KeyCode.U))
+                if (Input.GetKeyDown(KeyCode.U) && fishHeld >= 10)
                 {
                     ownblue = true;
+                    fishHeld -= 10;
                 }
-                if (Input.GetKeyDown(KeyCode.I))
+                if (Input.GetKeyDown(KeyCode.I) && fishHeld >= 50)
                 {
                     owngreen = true;
+                    fishHeld -= 50;
                 }
             }
 

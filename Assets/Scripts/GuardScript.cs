@@ -36,15 +36,6 @@ public class GuardScript : MonoBehaviour
         PatrolingState = PatrolingStatus.Enroute;
 
         PatrolRoute = GameObject.FindGameObjectsWithTag("patrolnode");
-        while (PatrolRoute.Length > 10)
-        {
-            var temp = new GameObject[10];
-            for (int i = 0; i < 10; i++)
-            {
-                temp[i] = PatrolRoute[i];
-            }
-            PatrolRoute = temp;
-        }
     }
 
     // Update is called once per frame
