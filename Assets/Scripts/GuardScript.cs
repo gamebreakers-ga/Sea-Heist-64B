@@ -6,9 +6,7 @@ using UnityEngine.AI;
 public class GuardScript : MonoBehaviour, IHostile
 {
     // Start is called before the first frame update
-    public GameObject bullet;
     public bool Detected;
-    private GameObject Player;
     public float MovementSpeed;
     public float RotationSpeed;
 
@@ -36,15 +34,17 @@ public class GuardScript : MonoBehaviour, IHostile
 
     public Rigidbody rb;
     public LineRenderer LineRenderer { get; private set; }
+
+    public GameManagerScript GM;
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        GM = GameObject.Find("Terrain").GetComponent<GameManagerScript>();
         NodeInPatrol = Random.Range(0, PatrolRoute.Length);
         nma = GetComponent<NavMeshAgent>();
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         PatrolingState = PatrolingStatus.Enroute;
 
-        Gun = new FN<IPlayer>(this);
+        Gun = new FN<IPlayer>(this, GM.Bullet);
 
         cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
         rb = GetComponent<Rigidbody>();
@@ -110,19 +110,19 @@ public class GuardScript : MonoBehaviour, IHostile
         if (Detected)
         {
             fireLimit += Time.deltaTime;
-            if (Vector3.Distance(Player.transform.position, transform.position) < 10)
+            if (Vector3.Distance(GM.Player.transform.position, transform.position) < 10)
             {
-                Quaternion rot = Quaternion.FromToRotation(Player.transform.position, gameObject.transform.position);
+                Quaternion rot = Quaternion.FromToRotation(GM.Player.transform.position, gameObject.transform.position);
                 nma.isStopped = true;
                 if (rot.x < 10 && rot.y < 10 && rot.z < 10 && fireLimit > 5)
                 {
                     fireLimit = 0;
-                    Instantiate(bullet, transform.position + (gameObject.transform.forward * 2), transform.rotation);
+                    Gun.Shoot();
                 }
-                transform.LookAt(Player.transform);
+                transform.LookAt(GM.Player.transform);
             } else
             {
-                nma.destination = Player.transform.position;
+                nma.destination = GM.Player.transform.position;
                 nma.isStopped = false;
             }
         }

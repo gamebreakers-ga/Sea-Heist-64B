@@ -26,17 +26,12 @@ public class StoreManagerScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.U))
             {
-                GM.Player.Paints.TryAdd(new PhonePistol<IHostile>(GM.Player));
+                Player.Paints.TryAdd(new PhonePistol<IHostile>(GM.Player, GM.Bullet));
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
-                GM.Player.Paints.TryAdd(new AR<IHostile>(GM.Player));
+                Player.Paints.TryAdd(new AR<IHostile>(GM.Player, GM.Bullet));
             }
         }
-    }
-
-    void BuyA()
-    {
-
     }
 }

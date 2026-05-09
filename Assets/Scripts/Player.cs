@@ -39,19 +39,20 @@ public class Player : MonoBehaviour, IPlayer
 
     public bool key;
 
-    public Selection<Paint<IHostile>> Paints;
+    public static Selection<Paint<IHostile>> Paints;
     public float Health { get; set; } = 100;
 
     public TextMeshProUGUI AmmoDisplay;
     public Slider HealthSlider;
     public Slider StaminaSlider;
 
-    public LineRenderer LineRenderer { get; private set; }
+    public GameManagerScript GM;
     // Start is called before the first frame update
     void Start()
     {
+        GM = GameObject.Find("Terrain").GetComponent<GameManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
-        Paints = new Selection<Paint<IHostile>>(3) { new FN<IHostile>(this) };
+        Paints = new Selection<Paint<IHostile>>(3) { new FN<IHostile>(this, GM.Bullet) };
         Paints.TrySelect(0);
 
         rb = GetComponent<Rigidbody>();
@@ -60,7 +61,6 @@ public class Player : MonoBehaviour, IPlayer
         HealthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
         StaminaSlider = GameObject.Find("StaminaSlider").GetComponent<Slider>();
         Stamina = 100;
-        LineRenderer = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame

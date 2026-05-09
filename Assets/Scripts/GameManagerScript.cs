@@ -6,8 +6,10 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
     public Player Player;
+    public UnityEngine.Object Bullet;
     private void Awake()
     {
+        Bullet = Resources.Load("PlayerBullet");
         Player = GameObject.Find("Player").GetComponent<Player>();
         if (Player == null)
         {
@@ -26,4 +28,15 @@ public class GameManagerScript : MonoBehaviour
     {
         
     }
+
+    public void ChangeScene()
+    {
+
+    }
+}
+
+public enum Scene
+{
+    Menu,
+    Tutorial
 }

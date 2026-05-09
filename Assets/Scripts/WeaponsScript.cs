@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.WSA;
+using Unity;
 
 public abstract class Paint
 {
@@ -11,45 +11,55 @@ public abstract class Paint
     public abstract int Ammo { get; protected set; }
     public abstract int MagizineSize { get; }
     public abstract bool IsReloading { get; protected set; }
+    public abstract float Range { get;  }
+    public abstract float Damage { get; }
+    public abstract UnityEngine.Object Bullet { get; protected set; }
     public abstract void Shoot();
     public abstract Task Reload();
-
-    protected async void DrawLine(Vector3 endPos)
-    {
-        Holder.LineRenderer.enabled = true;
-
-        Holder.LineRenderer.SetPosition(0, Holder.transform.position);
-        Holder.LineRenderer.SetPosition(1, endPos);
-
-        await Task.Delay(TimeSpan.FromSeconds(0.5));
-
-        Holder.LineRenderer.enabled = false;
-    }
 }
 
 public abstract class Paint<T> : Paint where T : IEntity
 {
-    
+    protected void FireRay(Ray ray)
+    {
+        Ammo--;
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Range, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            BulletScript bs = ((GameObject)GameObject.Instantiate(Bullet, ray.origin, Quaternion.identity)).GetComponent<BulletScript>();
+            bs.SetEndPoint(hitInfo.transform.position, Range);
+            if (hitInfo.collider.gameObject.TryGetComponent(out T script))
+            {
+                script.ApplyDamage(Damage);
+            }
+        }
+        else
+        {
+            BulletScript bs = ((GameObject)GameObject.Instantiate(Bullet, ray.origin, Quaternion.identity)).GetComponent<BulletScript>();
+            bs.SetEndPoint(ray.direction * Range, Range);
+        }
+    }
 }
 
 public class Barrett<T> : Paint<T> where T : IEntity
 {
     public override IEntity Holder { get; protected set; }
     public override string Name => "Barrett M82";
-    public float Range => 80;
+    public override float Range => 80;
     public override int MagizineSize => 5;
-    public float Damage => 80;
+    public override float Damage => 80;
     public override int Ammo { get; protected set; }
     public override bool IsReloading { get; protected set; }
     public TimeSpan FireRate => TimeSpan.FromSeconds(1);
     public Stopwatch FireRateTimer { get; } = new();
     public TimeSpan ReloadTime { get; } = TimeSpan.FromSeconds(0.5);
+    public override UnityEngine.Object Bullet { get; protected set; }
 
-    public Barrett(IEntity player)
+
+    public Barrett(IEntity player, UnityEngine.Object bullet)
     {
+        Bullet = bullet;
         Holder = player;
         FireRateTimer.Start();
-
         Ammo = MagizineSize;
     }
 
@@ -57,26 +67,14 @@ public class Barrett<T> : Paint<T> where T : IEntity
     {
         if (Ammo == 0)
         {
-            UnityEngine.Debug.Log(" no ammo reloading");
             await Reload();
+            return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
             return;
         } else
         {
-            Ammo--;
-            if (Physics.Raycast(Holder.cameraPosition.position, Holder.cameraFoward, out RaycastHit hitInfo, Range, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                DrawLine(hitInfo.collider.gameObject.transform.position);
-                if (hitInfo.collider.gameObject.TryGetComponent(out T script))
-                {
-                    script.ApplyDamage(Damage);
-                }
-            }
-            else
-            {
-                DrawLine(Holder.cameraFoward * Range);
-            }
+            FireRay(new Ray(Holder.cameraPosition.position, Holder.cameraFoward));
         }
         FireRateTimer.Restart();
     }
@@ -93,17 +91,21 @@ public class AR<T> : Paint<T> where T : IEntity
 {
     public override IEntity Holder { get; protected set; }
     public override string Name => "AR-57";
-    public float Range => 30;
+    public override float Range => 30;
     public override int MagizineSize => 25;
-    public float Damage => 26;
+    public override float Damage => 26;
     public override int Ammo { get; protected set; }
     public override bool IsReloading { get; protected set; }
     public TimeSpan FireRate => TimeSpan.FromSeconds(0.5);
     public Stopwatch FireRateTimer { get; } = new();
     public TimeSpan ReloadTime { get; } = TimeSpan.FromSeconds(0.5);
 
-    public AR(IEntity player)
+    public override UnityEngine.Object Bullet { get; protected set; }
+
+
+    public AR(IEntity player, UnityEngine.Object bullet)
     {
+        Bullet = bullet;
         Holder = player;
         FireRateTimer.Start();
         Ammo = MagizineSize;
@@ -111,31 +113,16 @@ public class AR<T> : Paint<T> where T : IEntity
 
     public override async void Shoot()
     {
-        UnityEngine.Debug.Log("Shooting");
         if (Ammo == 0)
         {
-            UnityEngine.Debug.Log(" no ammo reloading");
             await Reload();
-        }
-        else if (FireRateTimer.Elapsed < FireRate)
+            return;
+        } else if (FireRateTimer.Elapsed < FireRate)
         {
             return;
-        }
-        else
+        } else
         {
-            Ammo--;
-            if (Physics.Raycast(Holder.cameraPosition.position, Holder.cameraFoward, out RaycastHit hitInfo, Range, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                DrawLine(hitInfo.collider.gameObject.transform.position);
-                if (hitInfo.collider.gameObject.TryGetComponent(out T script))
-                {
-                    script.ApplyDamage(Damage);
-                }
-            }
-            else
-            {
-                DrawLine(Holder.cameraFoward * Range);
-            }
+            FireRay(new Ray(Holder.cameraPosition.position, Holder.cameraFoward));
         }
         FireRateTimer.Restart();
     }
@@ -152,16 +139,19 @@ public class PhonePistol<T> : Paint<T> where T : IEntity
 {
     public override IEntity Holder { get; protected set; }
     public override string Name => "Ideal Conceal";
-    public float Range => 10;
+    public override float Range => 10;
     public override int MagizineSize => 3;
-    public float Damage => 17;
+    public override float Damage => 17;
     public override int Ammo { get; protected set; }
     public override bool IsReloading { get; protected set; }
     public TimeSpan FireRate => TimeSpan.FromSeconds(1);
     public Stopwatch FireRateTimer { get; } = new();
     public TimeSpan ReloadTime { get; } = TimeSpan.FromSeconds(0.5);
-    public PhonePistol(IEntity player)
+    public override UnityEngine.Object Bullet { get; protected set; }
+
+    public PhonePistol(IEntity player, UnityEngine.Object bullet)
     {
+        Bullet = bullet;
         Holder = player;
         FireRateTimer.Start();
         Ammo = MagizineSize;
@@ -169,29 +159,16 @@ public class PhonePistol<T> : Paint<T> where T : IEntity
 
     public override async void Shoot()
     {
-        UnityEngine.Debug.Log("Shooting");
         if (Ammo == 0)
         {
-            UnityEngine.Debug.Log(" no ammo reloading");
             await Reload();
+            return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
             return;
         } else
         {
-            Ammo--;
-            if (Physics.Raycast(Holder.cameraPosition.position, Holder.cameraFoward, out RaycastHit hitInfo, Range, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                DrawLine(hitInfo.collider.gameObject.transform.position);
-                if (hitInfo.collider.gameObject.TryGetComponent(out T script))
-                {
-                    script.ApplyDamage(Damage);
-                }
-            }
-            else
-            {
-                DrawLine(Holder.cameraFoward * Range);
-            }
+            FireRay(new Ray(Holder.cameraPosition.position, Holder.cameraFoward));
         }
         FireRateTimer.Restart();
     }
@@ -208,17 +185,20 @@ public class FN<T> : Paint<T> where T : IEntity
 {
     public override IEntity Holder { get; protected set; }
     public override string Name => "FN 510";
-    public float Range => 1000;
     public override int MagizineSize => 28;
-    public float Damage => 4;
     public override int Ammo { get; protected set; }
     public override bool IsReloading { get; protected set; }
 
-    public TimeSpan FireRate => TimeSpan.FromSeconds(0.5);
-    public Stopwatch FireRateTimer { get; } = new();
-    public TimeSpan ReloadTime { get; } = TimeSpan.FromSeconds(1);
-    public FN(IEntity player)
+    public override float Range => 1000;
+    public override float Damage => 4;
+    public readonly TimeSpan FireRate = TimeSpan.FromSeconds(0.5);
+    public readonly Stopwatch FireRateTimer = new Stopwatch();
+    public readonly TimeSpan ReloadTime = TimeSpan.FromSeconds(1);
+    public override UnityEngine.Object Bullet { get; protected set; }
+
+    public FN(IEntity player, UnityEngine.Object bullet)
     {
+        Bullet = bullet;
         Holder = player;
         FireRateTimer.Start();
         Ammo = MagizineSize;
@@ -230,24 +210,13 @@ public class FN<T> : Paint<T> where T : IEntity
         if (Ammo == 0)
         {
             await Reload();
+            return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
             return;
         } else
         {
-            Ammo--;
-            if (Physics.Raycast(Holder.cameraPosition.position, Holder.cameraFoward, out RaycastHit hitInfo, Range, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                DrawLine(hitInfo.collider.gameObject.transform.position);
-                if (hitInfo.collider.gameObject.TryGetComponent(out T script))
-                {
-                    script.ApplyDamage(Damage);
-                }
-            }
-            else
-            {
-                DrawLine(Holder.cameraFoward * Range);
-            }
+            FireRay(new Ray(Holder.cameraPosition.position, Holder.cameraFoward));
         }
         FireRateTimer.Restart();
     }
