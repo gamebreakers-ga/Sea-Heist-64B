@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 3549083149935167879}
   - component: {fileID: 3307032124199079385}
   - component: {fileID: 546915228595804145}
+  - component: {fileID: 3713086523444679146}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -205,12 +206,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9999999, y: 1, z: 49.8639}
+  m_Center: {x: 0, y: 0, z: 24.43195}
 --- !u!114 &546915228595804145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +227,28 @@ MonoBehaviour:
   numFish: 0
   fishingTimer: 0
   player: {fileID: 0}
+--- !u!64 &3713086523444679146
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559271516012473282}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1292541151612152227
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,11 +464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a045e72d59f7d145b5a730d60064a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: []
-  starter: 0
-  self: 0
+  exits: []
   i: 0
-  rancode: 0
 --- !u!65 &1598940083714865056
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -479,7 +499,7 @@ GameObject:
   - component: {fileID: 6140773662675876810}
   - component: {fileID: 7893154108809180587}
   - component: {fileID: 728069806137701827}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: floor
   m_Icon: {fileID: 0}
@@ -782,8 +802,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.37453073, y: 1, z: 1}
-  m_Center: {x: 0.00054339913, y: 0, z: 0}
+  m_Size: {x: 0.37453073, y: 1, z: 7.5549}
+  m_Center: {x: 0.00054340507, y: 0, z: -0.4711375}
 --- !u!54 &1468581821099426623
 Rigidbody:
   m_ObjectHideFlags: 0

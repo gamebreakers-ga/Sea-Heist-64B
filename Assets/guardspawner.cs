@@ -22,7 +22,7 @@ public class guardspawner : MonoBehaviour
     public async void spawnguard()
     {
         await Task.Delay(TimeSpan.FromSeconds(5));
-        roll = UnityEngine.Random.Range(1, 31);
+        roll = UnityEngine.Random.Range(1, 16);
         if (roll == 1)
         {
             guard.GetComponent<Transform>().position = GetComponent<Transform>().position;

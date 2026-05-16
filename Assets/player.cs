@@ -339,7 +339,7 @@ public class player : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             await Task.Delay(1000);
-            SceneManager.LoadScene("StartScreen");
+            SceneManager.LoadScene("StartScreen Jacob Cornier");
         }
     }
 

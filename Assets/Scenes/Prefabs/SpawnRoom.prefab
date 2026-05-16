@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 5418278063803454139}
   - component: {fileID: 6387994477282630604}
   - component: {fileID: 781679444796293306}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: floor
   m_Icon: {fileID: 0}

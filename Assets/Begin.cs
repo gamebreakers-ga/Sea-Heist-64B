@@ -34,7 +34,7 @@ public class Begin : MonoBehaviour
     }
     public void testgen()
     {
-        SceneManager.LoadScene("Level gen");
+        SceneManager.LoadScene("Level gen Jacob Cornier");
         started = true;
     }
 }

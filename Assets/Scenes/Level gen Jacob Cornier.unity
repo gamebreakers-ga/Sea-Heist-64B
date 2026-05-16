@@ -256,22 +256,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e704f66fae9004d8a38e580da189c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomHolder:
-  - {fileID: 7831617939439278281, guid: e3ef22f89965dea4a833ac4baba3c6be, type: 3}
-  - {fileID: 1337926590404359095, guid: e7559c1f068461149b6b7452b4cab3aa, type: 3}
-  - {fileID: 6867980782958221999, guid: 12074b65da426d246a1a2078d510eb9e, type: 3}
-  - {fileID: 6867980782958221999, guid: 12074b65da426d246a1a2078d510eb9e, type: 3}
-  - {fileID: 8101232744808991327, guid: 33079d71aad257f40a7730247d998d07, type: 3}
+  roomPrefabs:
+  - {fileID: 7305117506462525987, guid: e3ef22f89965dea4a833ac4baba3c6be, type: 3}
+  - {fileID: 468011459093288714, guid: 12074b65da426d246a1a2078d510eb9e, type: 3}
+  - {fileID: 468011459093288714, guid: 12074b65da426d246a1a2078d510eb9e, type: 3}
+  - {fileID: 5723134183757679330, guid: 33079d71aad257f40a7730247d998d07, type: 3}
+  closingRoomPrefab: {fileID: 6209679676978320946, guid: e7559c1f068461149b6b7452b4cab3aa, type: 3}
   flip: 1
-  shouldflip: 1
-  pottargets: []
   difflip: 0
   difficulty: 3
-  player: {fileID: 0}
+  player: {fileID: 1700387952}
   mintimes: 0
-  roomsspawned: 0
-  navbaker: {fileID: 1355367752}
+  roomsSpawned: []
+  navbaker: {fileID: 1355367753}
   firstmeshgen: 1
+  minRooms: 10
+  maxRooms: 25
+  startingRoom: {fileID: 1604186920}
+  possibleDoorways: []
 --- !u!4 &336247244
 Transform:
   m_ObjectHideFlags: 0
@@ -502,7 +504,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -639,6 +641,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1604186920 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7305117506462525987, guid: e3ef22f89965dea4a833ac4baba3c6be, type: 3}
+  m_PrefabInstance: {fileID: 2145623546199420056}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a045e72d59f7d145b5a730d60064a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1700387952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4131976936124472067, guid: 6db2bb485be6f8e4e8ef63f8b16b44e1, type: 3}
+  m_PrefabInstance: {fileID: 2101803929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1855420497
 GameObject:
   m_ObjectHideFlags: 0

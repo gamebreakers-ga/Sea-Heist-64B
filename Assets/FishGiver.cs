@@ -23,6 +23,7 @@ public class FishGiver : MonoBehaviour
             {
                 player.GetComponent<player>().fishHeld += 1;
                 numFish -= 1;
+                Debug.Log("+1 fish");
             } 
             else
             {
@@ -32,9 +33,9 @@ public class FishGiver : MonoBehaviour
         }
     }
 
-    public void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             fishingTimer += Time.deltaTime;
         }

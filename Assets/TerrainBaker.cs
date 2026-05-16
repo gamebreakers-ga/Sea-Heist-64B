@@ -20,8 +20,6 @@ public class TerrainBaker : MonoBehaviour
     }
     public void createmesh()
     {
-     Debug.Log("working");
-     navmesh.BuildNavMesh();
-     Debug.Log("baked?");
+        navmesh.BuildNavMesh();
     }
 }

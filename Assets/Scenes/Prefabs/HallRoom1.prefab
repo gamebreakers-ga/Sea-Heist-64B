@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 2816745585239872554}
   - component: {fileID: 9152515901846088745}
   - component: {fileID: 7284469305189455025}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: floor
   m_Icon: {fileID: 0}
@@ -527,8 +527,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.40325382, y: 1, z: 1}
-  m_Center: {x: 0.0031036302, y: 0, z: 0}
+  m_Size: {x: 0.40325382, y: 1, z: 6.3434987}
+  m_Center: {x: 0.0031036302, y: 0, z: 0.11323617}
 --- !u!54 &7021988220487087674
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1082,8 +1082,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3913887, y: 1, z: 1}
-  m_Center: {x: -0.0026464344, y: 0, z: 0}
+  m_Size: {x: 0.3913887, y: 1, z: 3.8314993}
+  m_Center: {x: -0.0026464344, y: 0, z: 0.18141334}
 --- !u!54 &4420915441468945020
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1123,7 +1123,7 @@ GameObject:
   - component: {fileID: 8452486082696710824}
   - component: {fileID: 7890068010600354132}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Exit
   m_TagString: Doorway
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1324,12 +1324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a045e72d59f7d145b5a730d60064a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target:
-  - {fileID: 0}
-  starter: 0
-  self: 0
+  exits:
+  - {fileID: 6697259106933115199}
   i: 0
-  rancode: 0
 --- !u!65 &8989484850998762692
 BoxCollider:
   m_ObjectHideFlags: 0
