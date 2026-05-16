@@ -56,6 +56,8 @@ public class player : MonoBehaviour
     public GameObject blueicon;
     public GameObject greenicon;
 
+    public int wealth;
+
     public bool key;
     // Start is called before the first frame update
     void Start()
@@ -344,7 +346,4 @@ public class player : MonoBehaviour
         doorCollider.enabled = true;
         open = false;
     }
-
-
-
 }

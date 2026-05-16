@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 520820451140949418}
   - component: {fileID: 8889049144583673714}
   - component: {fileID: 1770544045999526992}
+  - component: {fileID: -1978038531393274395}
   m_Layer: 0
   m_Name: fih
   m_TagString: fih1
@@ -119,3 +120,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  moveSpeed: 2
+  moveRange: 5
+  directionChangeTime: 2
+--- !u!114 &-1978038531393274395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228383547506736920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 766e54996ecf88740969a7bf22993224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHeld: 0
+  holderPosition: {fileID: 0}
+  gm: {fileID: 0}
