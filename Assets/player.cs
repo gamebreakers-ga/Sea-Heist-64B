@@ -69,7 +69,7 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
+        Scene currentScene = SceneManager.GetActiveScene(); 
         health = 100;
         open = false;
         key = false;

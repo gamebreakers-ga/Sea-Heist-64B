@@ -4,34 +4,28 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    public GameObject player;
-
-    public float timer;
+    public Vector3 StartPoint;
+    private Vector3 EndPoint;
+    public float Range;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        StartPoint = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-
-        transform.Translate(new Vector3(0, 0, 0.5f));
-
-        if (timer >= 5)
+        transform.position = Vector3.MoveTowards(transform.position, EndPoint, 1);
+        if (Vector3.Distance(transform.position, EndPoint) < 1 || Vector3.Distance(transform.position, StartPoint) >= Range)
         {
             Destroy(gameObject);
         }
     }
-    private void OnCollisionEnter(Collision collision)
+
+    public void SetEndPoint(Vector3 endPoint, float range)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            player.GetComponent<player>().getuptimer = 0;
-            player.GetComponent<player>().ko = true;
-            player.GetComponent<Rigidbody>().freezeRotation = false;
-        }
+        EndPoint = new Vector3(endPoint.x, endPoint.y, endPoint.z);
+        Range = range;
     }
 }

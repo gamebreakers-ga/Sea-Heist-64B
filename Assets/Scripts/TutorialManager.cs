@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bombparticals : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
-    public float timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,10 +13,13 @@ public class bombparticals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= 2.5f)
-        {
-            Destroy(gameObject);
-        }
+        
+    }
+
+    public enum Stage
+    {
+        Movement,
+        Gun,
+
     }
 }

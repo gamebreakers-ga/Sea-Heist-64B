@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI; // Required for NavMesh
 using System.Collections;
-public class RandomWalker : MonoBehaviour
+public class RandomWalker : MonoBehaviour, IHostile
 {
     public float patrolRadius = 20f; // The agent will wander within this radius from its starting point
     public float minWaitTime = 1f; // Minimum time to wait before choosing a new destination
@@ -21,7 +21,15 @@ public class RandomWalker : MonoBehaviour
 
     public GameObject bullet;
 
-    public int health = 5;
+    public float health = 5;
+    public float Health => health;
+
+    public FN<IPlayer> Gun;
+
+    public Transform cameraPosition { get; protected set; }
+    public Vector3 cameraFoward => -cameraPosition.forward;
+
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -30,6 +38,8 @@ public class RandomWalker : MonoBehaviour
         GuardManager = GameObject.Find("GuardManager");
         player = GameObject.FindGameObjectWithTag("Player");
 
+        cameraPosition = GetComponentInChildren<detector>().gameObject.transform;
+        //Gun = new FN<IPlayer>(this, GameManagerScript.l);
         StartCoroutine(RemoveIfStuck());
     }
 
@@ -90,11 +100,13 @@ public class RandomWalker : MonoBehaviour
         }
         return finalPosition;
     }
-    public void OnCollisionEnter(Collision collision)
+
+    public void ApplyDamage(float Damage)
     {
-        if (collision.gameObject.tag == ("bullet"))
+        health -= Damage;
+        if (health <= 0)
         {
-            health -= 1;
+            Destroy(gameObject);
         }
     }
 }
