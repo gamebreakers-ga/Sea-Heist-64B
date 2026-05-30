@@ -16,10 +16,12 @@ public class CameraMovement : MonoBehaviour
     public Vector3 size;
 
     public GameManagerScript GM;
+    public player Player;
     // Start is called before the first frame update
     void Start()
     {
-        GM = GameObject.Find("Terrain").GetComponent<GameManagerScript>();
+        //GM = GameObject.Find("Terrain").GetComponent<GameManagerScript>();
+        Player = GetComponentInParent<player>();
     }
 
     // Update is called once per frame
@@ -44,6 +46,6 @@ public class CameraMovement : MonoBehaviour
         xRot = Mathf.Clamp(xRot, minY, maxY);
 
         transform.localRotation = Quaternion.Euler(xRot, 0, 0);
-        GM.Player.transform.Rotate(Vector3.up * mouseX);
+        Player.transform.Rotate(Vector3.up * mouseX);
     }
 }

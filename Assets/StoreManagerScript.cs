@@ -22,16 +22,16 @@ public class StoreManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(GM.Player.transform.position, transform.position) < 5)
-        {
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                Player.Paints.TryAdd(new PhonePistol<IHostile>(GM.Player, GM.Bullet));
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                Player.Paints.TryAdd(new AR<IHostile>(GM.Player, GM.Bullet));
-            }
-        }
+        //if (Vector3.Distance(GameManagerScript.Player.transform.position, transform.position) < 5)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.U))
+        //    {
+        //        player.Paints.TryAdd(new PhonePistol<IHostile>(GameManagerScript.Player, GameManagerScript.Bullet));
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.I))
+        //    {
+        //        player.Paints.TryAdd(new AR<IHostile>(GameManagerScript.Player, GameManagerScript.Bullet));
+        //    }
+        //}
     }
 }

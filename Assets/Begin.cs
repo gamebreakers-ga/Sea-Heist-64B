@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using System.Threading.Tasks;
 public class Begin : MonoBehaviour
 {
     public bool started = false;
@@ -36,5 +38,13 @@ public class Begin : MonoBehaviour
     {
         SceneManager.LoadScene("Level gen Jacob Cornier");
         started = true;
+    }
+    
+    public static async Task Until(Func<bool> condition)
+    {
+        while (!condition())
+        {
+            await Task.Delay(100);
+        }
     }
 }

@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 5703171955097148603}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.799782, y: 1.0099902, z: 125.18363}
+  m_LocalPosition: {x: 120.462395, y: 1.2479968, z: 89.97809}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c36dbe87849bf4a8fa238b13e3f8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 7853627840066033644, guid: b203189364e61bc419fc8b3506708926, type: 3}
   Detected: 0
   MovementSpeed: 0
   RotationSpeed: 0
@@ -138,7 +137,11 @@ MonoBehaviour:
   DetectionLevel: 0
   LastAlert: 6
   AlertPosition: {x: 0, y: 0, z: 0}
-  timer: 0
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  rb: {fileID: 0}
+  GM: {fileID: 0}
 --- !u!195 &8301291009561512997
 NavMeshAgent:
   m_ObjectHideFlags: 0

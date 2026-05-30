@@ -33,7 +33,6 @@ public class GuardScript : MonoBehaviour, IHostile
     public Vector3 cameraFoward => -cameraPosition.forward;
 
     public Rigidbody rb;
-    public LineRenderer LineRenderer { get; private set; }
 
     public GameManagerScript GM;
     void Start()
@@ -44,12 +43,10 @@ public class GuardScript : MonoBehaviour, IHostile
         nma.destination = PatrolRoute[NodeInPatrol].transform.position;
         PatrolingState = PatrolingStatus.Enroute;
 
-        Gun = new FN<IPlayer>(this, GM.Bullet);
+        Gun = new FN<IPlayer>(this, GameManagerScript.Bullet);
 
         cameraPosition = GetComponentInChildren<GuardDetectionScript>().gameObject.transform;
         rb = GetComponent<Rigidbody>();
-
-        LineRenderer = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -110,19 +107,19 @@ public class GuardScript : MonoBehaviour, IHostile
         if (Detected)
         {
             fireLimit += Time.deltaTime;
-            if (Vector3.Distance(GM.Player.transform.position, transform.position) < 10)
+            if (Vector3.Distance(GameManagerScript.Player.transform.position, transform.position) < 10)
             {
-                Quaternion rot = Quaternion.FromToRotation(GM.Player.transform.position, gameObject.transform.position);
+                Quaternion rot = Quaternion.FromToRotation(GameManagerScript.Player.transform.position, gameObject.transform.position);
                 nma.isStopped = true;
                 if (rot.x < 10 && rot.y < 10 && rot.z < 10 && fireLimit > 5)
                 {
                     fireLimit = 0;
                     Gun.Shoot();
                 }
-                transform.LookAt(GM.Player.transform);
+                transform.LookAt(GameManagerScript.Player.transform);
             } else
             {
-                nma.destination = GM.Player.transform.position;
+                nma.destination = GameManagerScript.Player.transform.position;
                 nma.isStopped = false;
             }
         }

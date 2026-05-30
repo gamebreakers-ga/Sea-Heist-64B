@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 
-public class player : MonoBehaviour
+public class player : MonoBehaviour, IPlayer
 {
-    public int health;
+    public float Health { get; set; }
     public bool open;
     public Vector3 moveDirection;
     public float speed;
@@ -22,7 +22,8 @@ public class player : MonoBehaviour
 
     public bool itemHeld;
     public GameObject currentItem;
-    public Transform cameraPosition;
+    public Transform cameraPosition { get; set; }
+    public Vector3 cameraFoward => cameraPosition.forward;
     public LayerMask interactMask;
     public GameObject bullet;
     public GameObject looking;
@@ -53,9 +54,6 @@ public class player : MonoBehaviour
     public bool owngreen = false;
     public bool ownblue = false;
 
-    public GameObject redicon;
-    public GameObject blueicon;
-    public GameObject greenicon;
 
     public bool key;
 
@@ -66,11 +64,12 @@ public class player : MonoBehaviour
 
     public int fishHeld;
     public static player Instance { get; private set; } // Global access point
-    // Start is called before the first frame update
+
+    public static Selection<Paint<IHostile>> Paints;
     void Awake()
     {
         Scene currentScene = SceneManager.GetActiveScene(); 
-        health = 100;
+        Health = 100;
         open = false;
         key = false;
         ko = false;
@@ -79,11 +78,7 @@ public class player : MonoBehaviour
         stamina = 10;
         staregen = 3;
         rb = GetComponent<Rigidbody>();
-        powerMeter.gameObject.SetActive(!true);
         storetext.gameObject.SetActive(!true);
-        redicon.gameObject.SetActive(!false);
-        blueicon.gameObject.SetActive(!true);
-        greenicon.gameObject.SetActive(!true);
 
 
         if (Instance != null && Instance != this)
@@ -97,15 +92,40 @@ public class player : MonoBehaviour
         }
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        cameraPosition = GameObject.Find("Main Camera").GetComponent<Transform>();
+        Paints = new Selection<Paint<IHostile>>(3) { new FN<IHostile>(this, GameManagerScript.Bullet) };
+        Paints.TrySelect(0);
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (currentScene.name == "StartScreen")
         {
             Cursor.lockState = CursorLockMode.None;
+        } else
+        {
+            for (int i = 0; i < Paints.Count; i++)
+            {
+                if (Input.GetKeyDown(i.ToString()))
+                {
+                    if (Paints.TrySelect(i)) break;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Paints.Selected.Shoot();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Paints.Selected.Reload();
+            }
         }
             float x = Input.GetAxisRaw("Horizontal");
-                float z = Input.GetAxisRaw("Vertical");
+            float z = Input.GetAxisRaw("Vertical");
 
             
 
@@ -118,15 +138,6 @@ public class player : MonoBehaviour
             {
                 crouch = false;
                 speed = 5;
-            }
-
-            if (ownblue)
-            {
-                blueicon.gameObject.SetActive(true);
-            }
-            if (owngreen)
-            {
-                greenicon.gameObject.SetActive(true);
             }
 
             float TY = crouch ? newH : 1;
@@ -195,7 +206,7 @@ public class player : MonoBehaviour
             transform.Translate(speed * Time.deltaTime * moveDirection);
 
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-            {
+            {  
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
 
@@ -248,48 +259,6 @@ public class player : MonoBehaviour
             {
                 staregen = 0;
             }
-            powerMeter.value = throwPower;
-
-            if (Input.GetKeyDown(KeyCode.E) && itemHeld)
-            {
-                throwPower = 0;
-                powerMeter.gameObject.SetActive(true);
-            }
-            if (Input.GetKey(KeyCode.E) && itemHeld)
-            {
-                throwPower = Mathf.PingPong(Time.time, 1);
-            }
-            if (Input.GetKeyUp(KeyCode.E) && itemHeld)
-            {
-                itemHeld = false;
-                currentItem.GetComponent<ItemController>().isHeld = false;
-                currentItem.GetComponent<Rigidbody>().useGravity = true;
-                currentItem.GetComponent<Rigidbody>().AddForce(throwMultiplier * throwPower * cameraPosition.forward, ForceMode.Impulse);
-                currentItem = null;
-                powerMeter.gameObject.SetActive(false);
-                throwPower = 0;
-            }
-           if (ko)
-            {
-                getuptimer += Time.deltaTime;
-                speed = 0;
-            }
-           if (getuptimer >= 5 & getuptimer <= 5.5)
-            {
-                GetComponent<Rigidbody>().freezeRotation = true;
-                GetComponent<Transform>().rotation = standardrotate;
-                speed = 5;
-            }
-           if (getuptimer >= 6)
-            {
-                ko = false;
-            }
-           if (Input.GetKeyDown(KeyCode.T))
-            {
-                ko = true;
-                GetComponent<Rigidbody>().freezeRotation = false;
-                getuptimer = 0;
-            }
 
         RoomGen = GameObject.Find("RoomGenerator");
 
@@ -301,6 +270,7 @@ public class player : MonoBehaviour
         {
             RoomGen.GetComponent<RoomGen>().difficulty = difficulty;
         }
+
     }
 
     bool IsGrounded()
@@ -335,11 +305,12 @@ public class player : MonoBehaviour
         {
             StartCoroutine(DoorTimer(collision.transform));
         }
-        if (collision.gameObject.tag == "back2menu")
+        if (collision.gameObject.tag == "back2menu" && fishHeld >= 5 + difficulty)
         {
             Cursor.lockState = CursorLockMode.None;
-            await Task.Delay(1000);
-            SceneManager.LoadScene("StartScreen Jacob Cornier");
+            //await Task.Delay(1000);
+            SceneManager.LoadScene(0);
+            difficulty += 1;
         }
     }
 
@@ -369,6 +340,12 @@ public class player : MonoBehaviour
         open = false;
     }
 
-
-
+    public void ApplyDamage(float damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            Debug.Log("Dead");
+        }
+    }
 }

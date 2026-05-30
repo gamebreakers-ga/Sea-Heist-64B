@@ -52,7 +52,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         GM = GameObject.Find("Terrain").GetComponent<GameManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
-        Paints = new Selection<Paint<IHostile>>(3) { new FN<IHostile>(this, GM.Bullet) };
+        Paints = new Selection<Paint<IHostile>>(3) { new FN<IHostile>(this, GameManagerScript.Bullet) };
         Paints.TrySelect(0);
 
         rb = GetComponent<Rigidbody>();

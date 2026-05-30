@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
-    public Player Player;
-    public UnityEngine.Object Bullet;
-    private void Awake()
+    public static Player Player;
+    public static UnityEngine.Object Bullet;
+    void Awake()
     {
         Bullet = Resources.Load("PlayerBullet");
-        Player = GameObject.Find("Player").GetComponent<Player>();
-        if (Player == null)
+        //Player = GameObject.Find("Player").GetComponent<Player>();
+        //if (Player == null)
+        //{
+        //    throw new NullReferenceException("Player is null");
+        //}
+        if (Bullet == null)
         {
-            throw new Exception("Player is null");
+            throw new NullReferenceException("Bullet is null");
         }
     }
 

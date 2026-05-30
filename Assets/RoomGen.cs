@@ -24,8 +24,11 @@ public class RoomGen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        difficulty = player.GetComponent<player>().difficulty;
         player = GameObject.Find("FirstPersonController");
+        difficulty = player.GetComponent<player>().difficulty;
+
+        minRooms += difficulty;
+        maxRooms += difficulty;
 
         roomsSpawned.Add(startingRoom);
         possibleDoorways.AddRange(startingRoom.exits);
