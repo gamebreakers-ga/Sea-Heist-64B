@@ -11,7 +11,7 @@ public class guardspawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawnguard();
+        StartCoroutine(spawnguard());
     }
 
     // Update is called once per frame
@@ -19,9 +19,9 @@ public class guardspawner : MonoBehaviour
     {
         
     }
-    public async void spawnguard()
+    public IEnumerator spawnguard()
     {
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        yield return new WaitForSeconds(5);
         roll = UnityEngine.Random.Range(1, 16);
         if (roll == 1)
         {

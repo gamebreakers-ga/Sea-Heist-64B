@@ -63,13 +63,7 @@ public class RandomWalker : MonoBehaviour, IHostile
         }
         else
         {
-            shoottimer += Time.deltaTime;
-            agent.SetDestination(playerpos);
-            if (shoottimer >= 3)
-            {
-                Instantiate(bullet, transform.position + (gameObject.transform.forward), gameObject.transform.rotation);
-                shoottimer = 0;
-            }
+            Gun.Shoot();
         }
         if (health == 0)
         {

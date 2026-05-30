@@ -8,6 +8,8 @@ public interface IEntity
     public Transform cameraPosition { get; }
     public Transform transform { get; }
     public Vector3 cameraFoward { get; }
+
+    Coroutine StartCoroutine(IEnumerator enumerator);
 }
 
 public interface IPlayer : IEntity

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEngine;
 using Unity;
-
+using System.Collections;
 public abstract class Paint
 {
     public abstract IEntity Holder { get; protected set; }
@@ -15,7 +15,7 @@ public abstract class Paint
     public abstract float Damage { get; }
     public abstract UnityEngine.Object Bullet { get; protected set; }
     public abstract void Shoot();
-    public abstract Task Reload();
+    public abstract IEnumerator Reload();
 }
 
 public abstract class Paint<T> : Paint where T : IEntity
@@ -67,7 +67,7 @@ public class Barrett<T> : Paint<T> where T : IEntity
     {
         if (Ammo == 0)
         {
-            await Reload();
+            Holder.StartCoroutine(Reload());
             return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
@@ -79,11 +79,13 @@ public class Barrett<T> : Paint<T> where T : IEntity
         FireRateTimer.Restart();
     }
 
-    public override async Task Reload()
+    public override IEnumerator Reload()
     {
-        if (IsReloading) return; 
-        await Task.Delay(ReloadTime);
+        if (IsReloading) yield break;
+        IsReloading = true;
+        yield return new WaitForSeconds(ReloadTime.Seconds);
         Ammo = (Ammo > 0) ? MagizineSize + 1 : MagizineSize;
+        IsReloading = false;
     }
 }
 
@@ -115,7 +117,7 @@ public class AR<T> : Paint<T> where T : IEntity
     {
         if (Ammo == 0)
         {
-            await Reload();
+            Holder.StartCoroutine(Reload());
             return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
@@ -127,11 +129,13 @@ public class AR<T> : Paint<T> where T : IEntity
         FireRateTimer.Restart();
     }
 
-    public override async Task Reload()
+    public override IEnumerator Reload()
     {
-        if (IsReloading) return;
-        await Task.Delay(ReloadTime);
+        if (IsReloading) yield break;
+        IsReloading = true;
+        yield return new WaitForSeconds(ReloadTime.Seconds);
         Ammo = (Ammo > 0) ? MagizineSize + 1 : MagizineSize;
+        IsReloading = false;
     }
 }
 
@@ -161,7 +165,7 @@ public class PhonePistol<T> : Paint<T> where T : IEntity
     {
         if (Ammo == 0)
         {
-            await Reload();
+            Holder.StartCoroutine(Reload());
             return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
@@ -173,11 +177,13 @@ public class PhonePistol<T> : Paint<T> where T : IEntity
         FireRateTimer.Restart();
     }
 
-    public override async Task Reload()
+    public override IEnumerator Reload()
     {
-        if (IsReloading) return;
-        await Task.Delay(ReloadTime);
-        Ammo =  MagizineSize;
+        if (IsReloading) yield break;
+        IsReloading = true;
+        yield return new WaitForSeconds(ReloadTime.Seconds);
+        Ammo = (Ammo > 0) ? MagizineSize + 1 : MagizineSize;
+        IsReloading = false;
     }
 }
 
@@ -209,7 +215,7 @@ public class FN<T> : Paint<T> where T : IEntity
         if (IsReloading) return;
         if (Ammo == 0)
         {
-            await Reload();
+            Holder.StartCoroutine(Reload());
             return;
         } else if (FireRateTimer.Elapsed < FireRate)
         {
@@ -220,11 +226,12 @@ public class FN<T> : Paint<T> where T : IEntity
         }
         FireRateTimer.Restart();
     }
-
-    public override async Task Reload()
+    public override IEnumerator Reload()
     {
-        if (IsReloading) return;
-        await Task.Delay(ReloadTime);
+        if (IsReloading) yield break;
+        IsReloading = true;
+        yield return new WaitForSeconds(ReloadTime.Seconds);
         Ammo = (Ammo > 0) ? MagizineSize + 1 : MagizineSize;
+        IsReloading = false;
     }
 }
