@@ -6,10 +6,10 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
     public Player Player;
-    public UnityEngine.Object Bullet;
+    public GameObject Bullet;
     private void Awake()
     {
-        Bullet = Resources.Load("PlayerBullet");
+        Bullet = (GameObject)Resources.Load("PlayerBullet");
         Player = GameObject.Find("Player").GetComponent<Player>();
         if (Player == null)
         {

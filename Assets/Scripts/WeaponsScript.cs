@@ -25,8 +25,7 @@ public abstract class Paint<T> : Paint where T : IEntity
         Ammo--;
         if (Physics.Raycast(ray, out RaycastHit hitInfo, Range, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
-            BulletScript bs = ((GameObject)GameObject.Instantiate(Bullet, ray.origin, Quaternion.identity)).GetComponent<BulletScript>();
-            bs.SetEndPoint(hitInfo.transform.position, Range);
+            ((GameObject)GameObject.Instantiate(Bullet, ray.origin, Quaternion.identity)).GetComponent<BulletScript>().SetEndPoint(ray.direction * Range, Range);
             if (hitInfo.collider.gameObject.TryGetComponent(out T script))
             {
                 script.ApplyDamage(Damage);
@@ -34,8 +33,7 @@ public abstract class Paint<T> : Paint where T : IEntity
         }
         else
         {
-            BulletScript bs = ((GameObject)GameObject.Instantiate(Bullet, ray.origin, Quaternion.identity)).GetComponent<BulletScript>();
-            bs.SetEndPoint(ray.direction * Range, Range);
+            ((GameObject)GameObject.Instantiate(Bullet, ray.origin, Quaternion.identity)).GetComponent<BulletScript>().SetEndPoint(ray.direction * Range, Range);
         }
     }
 }
